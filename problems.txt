@@ -1,0 +1,4 @@
+1. finding suitable statistics
+2. solve variance issue
+3. remove outliers
+4. find explanation of the plots
