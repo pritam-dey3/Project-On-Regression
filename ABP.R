@@ -79,4 +79,10 @@ kappa(model4)
 vif(model2)
 #except for theft and age everything seems to be correlated
 #particularly race, involact and income
-#we need to check more models through this
+#we need to check more models trough this
+
+cor(explanatory_variables)
+#income and involact strongly depends on race and fire. nice.
+#as involact ~ number of rejected policies, we can also make involact as response and
+#    race, fire, age, theft as explanatory variables
+# why is involact and income so highly correlated??
