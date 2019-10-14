@@ -39,3 +39,44 @@ for (i in 2:8) {
   added_variable <- data.frame(project_data_WO[,i], e_star)
   plot(added_variable)
 }
+# observed vs fitted plot<- our model is good
+plot(model1$fitted.values, project_data$volact, ylab= "fitted", xlab = "observed")
+abline(a = 0, b = 1, col = "purple")
+plot(project_data$volact)
+lines(model1$fitted.values, col = "green")
+
+
+#acf and pacf plot<- there is no indiaction of dependence among the residuals
+acf(model1$residuals, lag.max = NULL, type = "correlation", plot = TRUE) 
+pacf(model1$residuals, lag.max = NULL, plot = TRUE)
+
+#test for non-constant variance
+ols_test_breusch_pagan(model2)
+
+#finding a smoother
+plot(model2$residuals)
+lw <- loess(model2$residuals^2 ~ model2$fitted.values)
+plot(model2$residuals^2, )
+
+#14/10/19
+explanatory_variables <- model.matrix(~ race + fire + theft + age + involact + income - 1, data = project_data_WO)
+response_variable <- project_data_WO$volact
+model3 <- lmvar(y = response_variable, X_mu = explanatory_variables,
+                X_sigma = explanatory_variables, check_hessian = TRUE)
+summary(model3) #ridiculously small estimates... each getting rejected!!
+y_hat3 <- cbind(vec1, explanatory_variables) %*% model3$coefficients_mu
+
+plot(y_hat3, response_variable)
+abline(a = 0, b = 1)
+cor(y_hat3, response_variable) #0.903
+qqPlot(response_variable - y_hat3) #requires car package ##what kind of qq plot is this!!!
+
+#trying with log transformation
+log_response <- log(project_data_WO$volact)
+model4 <- lm(log_response ~ 1 + explanatory_variables)
+summary(model4)
+kappa(model4)
+vif(model2)
+#except for theft and age everything seems to be correlated
+#particularly race, involact and income
+#we need to check more models through this
