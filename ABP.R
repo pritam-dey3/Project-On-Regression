@@ -11,7 +11,7 @@ summary(model1)
 plot(model1) #explanation of the plots needed..!!
 
 #remove two outliers blindly
-project_data_WO <- project_data[c(-24, -7),] #data without outliers
+project_data_WO <- project_data[c(-24, -7, -6),] #data without outliers
 
 model2 = lm(project_data_WO$volact ~ 1 + project_data_WO$race + project_data_WO$fire +
               project_data_WO$theft + project_data_WO$age + project_data_WO$involact + 
