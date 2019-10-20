@@ -1,0 +1,103 @@
+---
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+# REGRESSION TECHNIQUES PROJECT :
+## Adhiraj Mandal,Bhargob Kakoty,Pritam Dey [GROUP-VIII]
+
+
+### **DATA IN HAND : **
+### Data on racial composition, income and age and value of residential units for each ZIP code in Chicago
+
+
+
+In a study of insurance availability in Chicago, the U.S. Commission on Civil Rights attempted to examine charges by several community
+organizations that insurance companies were redlining their neighborhoods, ie. cancelling policies or refusing to insure or renew. First the
+Illinois Department of Insurance provided the number of cancellations, non-renewals, new policies, and renewals of homeowners and
+residential fire insurance policies by ZIP code for the months of December 1977 through February 1978. The companies that provided this
+information account for more than 70% of the homeowners insurance policies written in the City of Chicago. The department also supplied
+the number of FAIR plan policies written an renewed in Chicago by zip code for the months of December 1977 through May 1978. Since
+most FAIR plan policyholders secure such coverage only after they have been rejected by the voluntary market, rather than as a result of a
+preference for that type of insurance, the distribution of FAIR plan policies is another measure of insurance availability in the voluntary
+market.
+
+Secondly, the Chicago Police Department provided crime data, by beat, on all thefts for the year 1975. Most Insurance companies claim to
+base their underwriting activities on loss data from the preceding years, i.e. a 2-3 year lag seems reasonable for analysis purposes. the
+Chicago Fire Department provided similar data on fires occurring during 1975. These fire and theft data were organized by zip code.
+
+Finally the US Bureau of the census supplied data on racial composition, income and age and value of residential units for each ZIP code in
+Chicago. To adjust for these differences in the populations size associated with different ZIP code areas, the theft data were expressed as
+incidents per 1,000 population and the fire and insurance data as incidents per 100 housing units. 
+
+(D--A--T--A)
+
+**race**     racial composition in percent minority  
+
+**fire**     fire  incidents per 100 housing units  
+
+**theft**    theft per 1000 population  
+
+**age**      percent of housing units built before 1939  
+
+**volact**   new homeowner policies plus renewals minus cancellations and non renewals per 100 housing units  
+
+**involact** new FAIR plan policies and renewals per 100 housing units  
+
+**income**   median family income  
+
+
+### **AN ANALYSIS OF THE PROBLEM  :**
+
+Homeowner'sinsurance is a form of property insurance that covers losses and damages to an individual's house and to assets in the home.Homeowner's insurance also provides liability coverage against incidents in the home or on the property.  
+A homeowner's policy might get rejected under various circumstances, such as,  
+
+* If the building is very old.(High values in the **age** column)  
+
+* If the building is prone to catch  fire accident. (High values in the **fire** column)  
+
+* If the locality is prone to theft incidents. (High values in the **theft** column)  
+
+The **volact** column represents the net increase in the number homeowner policies in different ZIP Codes. If the claim of the Community organizations is true, the percentage minority of a particular race in a region should impact the **volact**. We would like to check if the other factors such as **age, fire, theft, income** depend on **volact**. The **involact** column which gives the number of FAIR plan policies (both new and renewa) can reveal the number of rejected homwowner policies. So, we might be interested in checking whether various risk factors like **fire, theft, age** affect this variable. 
+
+
+
+    
+### **OBJECTIVE**    
+
+To carry out a Statistical test to investigate if  the claim of the Community Organizations are valid.  
+The **Null Hypothesis** is that there is no significant impact of the race in availing policy from the voluntary market, against the **Alternative Hypothesis** there is a negative impact of the race in availing the same.
+
+### **GRAPHICAL REPRESENTATION OF THE DATA**
+
+Before going into the analysis, we try to have some overall idea about the data by looking at the **Scatterplot**.         
+     
+```{r,include=FALSE}
+library(readxl)
+project_data <- read_excel("C:/Users/ADHIRAJ/Desktop/ProjectWork-master/project_data.xlsx")
+```
+```{r, fig.dim= c(9,9)}
+library(lattice)
+splom(project_data[-1])
+```
+
+
+* From the Scatter Plot Matrix, it can be seen that **theft** has no visible relationships with the other variables.  
+* Apparently **Volact** is *negatively* related with all other variables except **income** and **theft**.It has a   strong *positive* relationship with **income**.  
+
+* **Involact** shows exactly the opposite picure of **volact**.  
+
+*  There is a positive relationship between **race** and **fire**. It clearly incdicates that as the houses get old, the chance of catching fire incidents increases.
+
+*  **fire** has a slight positive relationship with **age**
+
+*  **income** shows a negative relationship every other variable except **volact** and **theft** with which it have positive relationship and no obvious relationship respectively.
+
+
+
+### **PRELIMINARY ANALYSIS**
+
+There are two candidates for the response variable, namely ***Volact*** and ***involact***, both of which denote a measure of insurance availability in the voluntary market.At very outset, we try to fit a linear model to the given data set by taking volact as response variable and all other variables as explanatory variables (excluding Zipcodes).Later, we shall try to fit different linear models taking either ***volact*** or ***involact*** as a response variable and excluding one or more than one columns from the data. The ultimate model selection will be based on some popularly used criteria such as ***Residual Sum of Squares (RSS), Adjusted $R^2$, Akaike Information Criterion (AIC)*** and ***Mallow's CP***.
+         
+  
