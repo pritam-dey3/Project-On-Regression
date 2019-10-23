@@ -61,7 +61,7 @@ plot(model2$residuals^2, )
 #14/10/19
 explanatory_variables <- model.matrix(~ race + fire + theft + age + involact + income - 1, data = project_data_WO)
 response_variable <- project_data_WO$volact
-model3 <- lmvar(y = response_variable, X_mu = explanatory_variables,
+model_lm <- lmvar(y = response_variable, X_mu = explanatory_variables,
                 X_sigma = explanatory_variables, check_hessian = TRUE)
 summary(model3) #ridiculously small estimates... each getting rejected!!
 y_hat3 <- cbind(vec1, explanatory_variables) %*% model3$coefficients_mu

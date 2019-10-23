@@ -1,4 +1,4 @@
-1. finding suitable statistics
-2. solve variance issue
-3. remove outliers
-4. find explanation of the plots
+1. remove the theft column
+2. race has strong linear relationship with fire and income
+3. age has relationship with fire
+4. 

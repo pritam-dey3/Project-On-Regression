@@ -1,5 +1,5 @@
 ##required packages lmvar, car, olsrr, trafo, mass
-model1 <- lm(volact ~ 1 + race + fire + theft + age + income, data = project_data_WO)
+model1 <- lm(volact ~ 1 + race + fire + theft + age + income, data = project_data)
 kappa(model1)
 vif(model1)
 #income is creatinng problems
@@ -19,7 +19,7 @@ summary(model3$trafo_mod)
 plot(model3)
 plot(model3$fitted.values, modulus_y)
 
-model3 <- trafo_lm(object = model2, trafo = "boxcox") 
+model3 <- trafo_lm(object = model2, trafo = "sqrtshift") 
 summary(model3)
 plot(model3)
 vif(model3)
@@ -57,3 +57,7 @@ ols_aic(model2)
 ols_aic(model4$trafo_mod)
 ols_aic(model3$trafo_mod)
 #RSS
+
+#multiplot
+library(lattice)
+splom(project_data[,-1])
